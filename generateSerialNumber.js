@@ -1,3 +1,4 @@
+document.getElementById("firstSerialNumber").focus();
 let inputfirstSerialNumberEnterKeyListen = document.getElementById("firstSerialNumber");
 inputfirstSerialNumberEnterKeyListen.addEventListener("keyup", function (event) {
     event.preventDefault();
@@ -18,7 +19,6 @@ inputnumberOfSerialEnterKeyListen.addEventListener("keyup", function (event) {
 
 function generateSerialNumbers(param, numberOfSerial) {
 
-
     let firstSerialNumber = param.toUpperCase();
     let serialLength = param.length;
     let lastAlphabeticCaracter = firstSerialNumber.slice(serialLength - 1, serialLength);
@@ -28,9 +28,9 @@ function generateSerialNumbers(param, numberOfSerial) {
     let fillNullNumber;
     let firstSectionString = '';
     let generatedSerialWithFirstSection;
+    let lineNumber;
     console.log(maximumNumberOfSerial);
     if (numberOfSerial < maximumNumberOfSerial) {
-
 
         document.getElementById('generatedSerials').innerHTML = '';
         for (let i = 0; i < numberOfSerial; i++) {
@@ -41,8 +41,9 @@ function generateSerialNumbers(param, numberOfSerial) {
             for (let j = 0; j < fillNullNumber; j++) {
                 firstSectionString += '0';
             }
+lineNumber = i+1;
 
-            generatedSerialWithFirstSection = firstSectionString + generatedSerial;
+            generatedSerialWithFirstSection = firstSectionString + generatedSerial ;
             document.getElementById('generatedSerials').innerHTML += generatedSerialWithFirstSection + '\n';
 
             firstSectionString = '';
@@ -50,16 +51,19 @@ function generateSerialNumbers(param, numberOfSerial) {
             numberSection++;
         }
         document.getElementById('generatedSerials').select();
-        document.execCommand("copy");
         document.getElementById("generatedSerials").focus();
-    } else
-    {
+        document.execCommand('copy');
+        // navigator.clipboard.readText().then(clipText =>
+        //     document.getElementById("filnameFromClipboard").innerText = clipText);
+
+    } else {
         var element = document.getElementById("numberOfSerial");
         element.classList.add("is-invalid");
-
-
-        document.getElementById("numberOfSerial").focus();
-        document.getElementById('numberOfSerial').select();
+        document.getElementById("serialNumber").focus();
+        document.getElementById("serialNumber").select();
         return false;
     }
+
+
 }
+

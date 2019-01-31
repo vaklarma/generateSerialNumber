@@ -8,12 +8,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 
     <title>Serial Number Generator</title>
 </head>
 <body>
 <div class="container">
     <h1>Serial Number Generator</h1>
+    <div id="filnameFromClipboard">clipboard</div>
     <div class="row text-center">
         <div class="col border">
 
@@ -52,12 +54,21 @@
 
         <div class="col border text-center">
             <h2>Result serials</h2>
+
+            <!--<div class="editable" contenteditable="true" id="generatedSerials">This is the first line.<br>-->
+                <!--See, how the text fits here, also if<br>there is a <strong>linebreak</strong> at the end?-->
+                <!--<br>It works nicely.-->
+                <!--<br>-->
+                <!--<br><span style="color: lightgreen">Great</span>.-->
+            <!--</div>-->
+
+
             <div class="mx-auto">
-            <textarea id="generatedSerials" rows="30">
-
-
-        </textarea>
+            <textarea id="generatedSerials" rows="30"></textarea>
             </div>
+            <button onclick="saveTextAsFile()">Save Text to File</button>
+            <button onclick="WriteFile()">WriteFile</button>
+
 
         </div>
 
@@ -81,7 +92,6 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="generateSerialNumber.js"></script>
 <script>
-
 
 
 </script>
