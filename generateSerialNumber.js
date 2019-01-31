@@ -7,8 +7,6 @@ inputfirstSerialNumberEnterKeyListen.addEventListener("keyup", function (event) 
 });
 
 
-
-
 let inputnumberOfSerialEnterKeyListen = document.getElementById("numberOfSerial");
 inputnumberOfSerialEnterKeyListen.addEventListener("keyup", function (event) {
     event.preventDefault();
@@ -19,32 +17,49 @@ inputnumberOfSerialEnterKeyListen.addEventListener("keyup", function (event) {
 
 
 function generateSerialNumbers(param, numberOfSerial) {
+
+
     let firstSerialNumber = param.toUpperCase();
     let serialLength = param.length;
     let lastAlphabeticCaracter = firstSerialNumber.slice(serialLength - 1, serialLength);
     let numberSection = Number(firstSerialNumber.slice(0, serialLength - 1));
+    let maximumNumberOfSerial = 9999 - numberSection;
     let generatedSerial = '';
     let fillNullNumber;
     let firstSectionString = '';
     let generatedSerialWithFirstSection;
-    document.getElementById('generatedSerials').innerHTML = '';
-    for (let i = 0; i < numberOfSerial; i++) {
-        generatedSerial = numberSection + lastAlphabeticCaracter;
+    console.log(maximumNumberOfSerial);
+    if (numberOfSerial < maximumNumberOfSerial) {
 
 
-        fillNullNumber = serialLength - generatedSerial.length;
-        for (let j = 0; j < fillNullNumber; j++) {
-            firstSectionString += '0';
+        document.getElementById('generatedSerials').innerHTML = '';
+        for (let i = 0; i < numberOfSerial; i++) {
+            generatedSerial = numberSection + lastAlphabeticCaracter;
+
+
+            fillNullNumber = serialLength - generatedSerial.length;
+            for (let j = 0; j < fillNullNumber; j++) {
+                firstSectionString += '0';
+            }
+
+            generatedSerialWithFirstSection = firstSectionString + generatedSerial;
+            document.getElementById('generatedSerials').innerHTML += generatedSerialWithFirstSection + '\n';
+
+            firstSectionString = '';
+
+            numberSection++;
         }
-        console.log(firstSectionString);
-        generatedSerialWithFirstSection = firstSectionString + generatedSerial;
-        document.getElementById('generatedSerials').innerHTML += generatedSerialWithFirstSection + '\n';
+        document.getElementById('generatedSerials').select();
+        document.execCommand("copy");
+        document.getElementById("generatedSerials").focus();
+    } else
+    {
+        var element = document.getElementById("numberOfSerial");
+        element.classList.add("is-invalid");
 
-        firstSectionString = '';
 
-        numberSection++;
+        document.getElementById("numberOfSerial").focus();
+        document.getElementById('numberOfSerial').select();
+        return false;
     }
-    document.getElementById('generatedSerials').select();
-    document.execCommand("copy");
-    document.getElementById("generatedSerials").focus();
 }
