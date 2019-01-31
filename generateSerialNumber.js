@@ -31,7 +31,7 @@ function generateSerialNumbers(param, numberOfSerial) {
     let lineNumber;
     console.log(maximumNumberOfSerial);
     if (numberOfSerial < maximumNumberOfSerial) {
-
+        document.getElementById("numberOfSerial").classList.add("is-valid");
         document.getElementById('generatedSerials').innerHTML = '';
         for (let i = 0; i < numberOfSerial; i++) {
             generatedSerial = numberSection + lastAlphabeticCaracter;
@@ -63,7 +63,5 @@ lineNumber = i+1;
         document.getElementById("serialNumber").select();
         return false;
     }
-
-
 }
 

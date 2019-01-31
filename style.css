@@ -11,3 +11,22 @@ div.editable {
 strong {
     font-weight: bold;
 }
+
+
+element.style {
+}
+.listItem:first-child {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+ol{
+    list-style-type: lower-latin;
+}
+.listItem {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
