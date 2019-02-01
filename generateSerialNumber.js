@@ -41,9 +41,9 @@ function generateSerialNumbers(param, numberOfSerial) {
             for (let j = 0; j < fillNullNumber; j++) {
                 firstSectionString += '0';
             }
-lineNumber = i+1;
+            lineNumber = i + 1;
 
-            generatedSerialWithFirstSection = firstSectionString + generatedSerial ;
+            generatedSerialWithFirstSection = firstSectionString + generatedSerial;
             document.getElementById('generatedSerials').innerHTML += generatedSerialWithFirstSection + '\n';
 
             firstSectionString = '';
