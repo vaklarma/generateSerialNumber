@@ -3,7 +3,9 @@ class SerialNumberGeneratorClass {
 
     constructor() {
         this.firstSerialInputField = document.getElementById("firstSerialNumber");
-        this.numberOfSerials = document.getElementById("numberOfSerial");
+        this.numberOfSerialsInputField = document.getElementById("numberOfSerial");
+        this.startButton = document.getElementById("startButton");
+        this.serialRegexPattern = /\d{5}[A-Z]/g;
 
     }
 
@@ -12,7 +14,7 @@ class SerialNumberGeneratorClass {
     }
 
     getNumberOfSerialValue() {
-        return this.numberOfSerials.value;
+        return this.numberOfSerialsInputField.value;
     }
 
     getNumberSection() {
@@ -35,10 +37,15 @@ class SerialNumberGeneratorClass {
         // console.log('getNumberSection: ',this.getNumberSection());
         return (this.getMaximumNumberOfSerial() - this.getNumberSection()) + 1;
     }
+// TODO replace it with regex expression
+    isInvalidSerialFormat() {
+        let value = this.firstSerialInputField.value;
+        return false;
+    }
 
     hasTooManySerialNumbers() {
 
-        console.log('getMaxSnCalculateWithFirstSerial: ', this.getMaxSnCalculateWithFirstSerial());
+        this.maximumNumber = this.getMaxSnCalculateWithFirstSerial();
 
         if (this.getNumberOfSerialValue() > this.getMaxSnCalculateWithFirstSerial()) {
             return true;
@@ -79,46 +86,71 @@ class SerialNumberGeneratorClass {
         formControl.focus();
         formControl.select();
         document.getElementsByClassName("invalid-feedback")[errorCode].innerHTML += errorMsg;
+        this.errorFlag = true;
+        this.startButton.disabled = true;
     }
-    addSucces(formControl,successClass) {
+
+    addSucces(formControl, successClass) {
         formControl.classList.remove('is-invalid');
         formControl.classList.add(`${successClass}`);
     }
 }
 
 let serialGenerator = new SerialNumberGeneratorClass();
-document.getElementById("firstSerialNumber").focus();
+serialGenerator.firstSerialInputField.focus();
+serialGenerator.numberOfSerialsInputField.disabled = true;
 
-let inputfirstSerialNumberEnterKeyListen = document.getElementById("firstSerialNumber");
-inputfirstSerialNumberEnterKeyListen.addEventListener("keyup", function (event) {
+serialGenerator.firstSerialInputField.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode === 13) {
-        document.getElementById("numberOfSerial").focus();
+        if (serialGenerator.isInvalidSerialFormat()) {
+            serialGenerator.addError(serialGenerator.firstSerialInputField, 'is-invalid',
+                'Hibás szériaszám formátum <br> A helyes formátum: <strong>9999X </strong>',0);
+
+        } else {
+            serialGenerator.firstSerialInputField.disabled = true;
+            serialGenerator.addSucces(serialGenerator.firstSerialInputField, 'is-valid');
+            serialGenerator.numberOfSerialsInputField.disabled = false;
+            document.getElementById("numberOfSerial").focus();
+        }
+
     }
 });
 
 let inputnumberOfSerialEnterKeyListen = document.getElementById("numberOfSerial");
 inputnumberOfSerialEnterKeyListen.addEventListener("keyup", function (event) {
     event.preventDefault();
-    console.log(event.keyCode);
+
+
     if (event.keyCode === 13) {
-        document.getElementById("startButton").click();
+
+       startGenerating();
     }
 });
 
 
-
-
-
 function startGenerating() {
+    console.log(isNaN(serialGenerator.getNumberOfSerialValue()));
     document.getElementById('generatedSerials').innerHTML = '';
+    // TODO Check invalid serial number format
+    if (serialGenerator.isInvalidSerialFormat()) {
+        serialGenerator.addError(serialGenerator.firstSerialInputField, 'is-invalid',
+            'Hibás szériaszám formátum !!<br> A helyes formátum: <strong>9999X </strong>',0);
+
+    }
+    // Check to many serial number
     if (serialGenerator.hasTooManySerialNumbers()) {
-        serialGenerator.addError(serialGenerator.numberOfSerials, 'is-invalid', 'Nem lehetséges ennyi szériaszám felvitele !', 1);
+        serialGenerator.addError(serialGenerator.numberOfSerialsInputField, 'is-invalid',
+            'Nem lehetséges ennyi szériaszám felvitele ! <br> Maximum <strong> ' + serialGenerator.maximumNumber + ' db </strong> szériaszámot lehet generálni !', 1);
 
     } else {
-        serialGenerator.addSucces(serialGenerator.numberOfSerials, 'is-valid');
+        serialGenerator.errorFlag = false;
+        serialGenerator.addSucces(serialGenerator.numberOfSerialsInputField, 'is-valid');
 
         serialGenerator.generatingSerialNumbers(serialGenerator.getNumberOfSerialValue());
+        document.getElementById('generatedSerials').select();
+        document.getElementById("generatedSerials").focus();
+        document.execCommand('copy');
     }
 
 }
