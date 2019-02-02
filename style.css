@@ -1,35 +1,39 @@
+body {
 
 
-div.editable {
-    width: 300px;
-    /*height: 200px;*/
-    border: 1px solid #ccc;
-    padding: 5px;
-    overflow: auto;
+
+}
+.jumbotron {
+    background-color: #c09e83;
+}
+.robot {
+    /*background-image: url("img/robot_01_01.jpg");*/
+
+    /*background-repeat: no-repeat, repeat;*/
+
+    /*background-position:  right;*/
+
 }
 
-strong {
-    font-weight: bold;
-}
 
-
-element.style {
-}
 .listItem:first-child {
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
 }
-ol{
+
+ol {
     list-style-type: lower-latin;
 }
+
 .listItem {
     position: relative;
     display: block;
     padding: .75rem 1.25rem;
     margin-bottom: -1px;
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }
+
 .invalid-feedback {
     font-size: 20px;
 }

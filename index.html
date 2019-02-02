@@ -10,14 +10,19 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 
-    <title>Serial Number Generator</title>
+    <title>Szériaszám generátor</title>
 </head>
 <body>
+<div class="jumbotron jumbotron-fluid p-2 m-0">
+    <div class="container">
+        <h1 class="display-4">Szériaszám generátor</h1>
+    </div>
+</div>
 <div class="container">
-    <!--<h1 class="text-center">Serial Number Generator</h1>-->
+
 
     <div class="row text-center">
-        <div class="col border m-3">
+        <div class="col  m-1">
 
             <div class="input-group input-group-lg">
 
@@ -45,64 +50,34 @@
 
                 </div>
             </div>
-            <div class="col m-2">
-                <!--<button onclick="generateSerialNumbers(document.getElementById('firstSerialNumber').value,-->
-                               <!--document.getElementById('numberOfSerial').value)"-->
-                        <!--type="button"-->
-                        <!--class="btn btn-primary btn-lg"-->
-                        <!--id="startButton">-->
-
-                    <!--START-->
-                <!--</button>-->
-
-                <!--<button onclick="startGenerating()"-->
-                        <!--type="button"-->
-                        <!--class="btn btn-primary btn-lg"-->
-                        <!--id="startButton">-->
-
-                    <!--START-->
-                <!--</button>-->
-
-
-                <div class="col mt-5">
+            <div class="col">
+                <div class="col mt-5 ">
                     <ol class="">
                         <li class="listItem">Csipogd be a kezdő serialt a cimkéről</li>
-                        <li class="listItem">Írd be a darabszámot</li>
+                        <li class="listItem">Írd be a darabszámot majd üss <strong>ENTER</strong> - t</li>
                         <li class="listItem">Az eredmény vágólapra kerül</li>
                         <li class="listItem">Illeszd be egy üres TXT file - ba</li>
                         <li class="listItem">Mentsd el ahogy akarod</li>
                         <li class="listItem">Töltsd be a programba az elmentett TXT - t</li>
+                        <li class="listItem">Nyomj <strong>F5</strong> billentyűt egy új sorozat generálásához</li>
                     </ol>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col border m-3 text-center">
-            <h2>Generált sorozat</h2>
-
-            <!--<div class="editable" contenteditable="true" id="generatedSerials">This is the first line.<br>-->
-                <!--See, how the text fits here, also if<br>there is a <strong>linebreak</strong> at the end?-->
-                <!--<br>It works nicely.-->
-                <!--<br>-->
-                <!--<br><span style="color: lightgreen">Great</span>.-->
-            <!--</div>-->
-
-
-            <div class="mx-auto">
-            <textarea id="generatedSerials" rows="30"></textarea>
+        <div class="col-4 mt-4">
+            <div class="col m-1">
+                <div class="alert alert-success" style="display: none" id="resultInfo">
+                </div>
             </div>
-            <!--<button onclick="saveTextAsFile()">Save Text to File</button>-->
-            <!--<button onclick="WriteFile()">WriteFile</button>-->
-
-
+            <div class=" ">
+                <textarea class="m-0 text-center" id="generatedSerials" rows="25"></textarea>
+            </div>
         </div>
-
-
+        <div class="col-4 mt-3">
+                    <img class="img-fluid" src="img/robot_01_01.jpg">
+        </div>
     </div>
-
-
 </div>
 
 

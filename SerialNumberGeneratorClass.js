@@ -4,8 +4,7 @@ class SerialNumberGeneratorClass {
     constructor() {
         this.firstSerialInputField = document.getElementById("firstSerialNumber");
         this.numberOfSerialsInputField = document.getElementById("numberOfSerial");
-        this.startButton = document.getElementById("startButton");
-        this.serialRegexPattern = /\d{5}[A-Z]/g;
+        this.serialRegexPattern = new RegExp(/^\d{5}[A-Z]{1}$/);
 
     }
 
@@ -19,12 +18,8 @@ class SerialNumberGeneratorClass {
 
     getNumberSection() {
         this.numberSection = Number(this.getFirstSerialNumberValue().slice(0, (this.getFirstSerialNumberValue().length - 1)));
-        console.log(this.numberSection);
-        return this.numberSection;
-    }
 
-    getNumberSectionLengthAsNumber() {
-        return Number(String(this.getNumberSection()).length);
+        return this.numberSection;
     }
 
     //This function return with possible maximum number of serial independently the first serial number.
@@ -33,14 +28,18 @@ class SerialNumberGeneratorClass {
     }
 
     getMaxSnCalculateWithFirstSerial() {
-        // console.log('getMaximumNumberOfSerial: ',this.getMaximumNumberOfSerial());
-        // console.log('getNumberSection: ',this.getNumberSection());
         return (this.getMaximumNumberOfSerial() - this.getNumberSection()) + 1;
     }
-// TODO replace it with regex expression
+
     isInvalidSerialFormat() {
-        let value = this.firstSerialInputField.value;
-        return false;
+
+        if (this.serialRegexPattern.test(this.firstSerialInputField.value.toUpperCase())) {
+            return false;
+        } else {
+            return true;
+        }
+
+
     }
 
     hasTooManySerialNumbers() {
@@ -79,15 +78,17 @@ class SerialNumberGeneratorClass {
             firstSectionString = '';
             numberSection++;
         }
+        this.lastSerialNumber = generatedSerialWithFirstSection;
+        this.resultSerialNumber = lineNumber;
     }
 
     addError(formControl, errorClass, errorMsg, errorCode) {
         formControl.classList.add(`${errorClass}`);
         formControl.focus();
         formControl.select();
-        document.getElementsByClassName("invalid-feedback")[errorCode].innerHTML += errorMsg;
+        document.getElementsByClassName("invalid-feedback")[errorCode].innerHTML = errorMsg;
         this.errorFlag = true;
-        this.startButton.disabled = true;
+
     }
 
     addSucces(formControl, successClass) {
@@ -105,7 +106,7 @@ serialGenerator.firstSerialInputField.addEventListener("keyup", function (event)
     if (event.keyCode === 13) {
         if (serialGenerator.isInvalidSerialFormat()) {
             serialGenerator.addError(serialGenerator.firstSerialInputField, 'is-invalid',
-                'Hibás szériaszám formátum <br> A helyes formátum: <strong>9999X </strong>',0);
+                'Hibás szériaszám formátum <br> A helyes formátum: <strong>9999X </strong>', 0);
 
         } else {
             serialGenerator.firstSerialInputField.disabled = true;
@@ -117,25 +118,22 @@ serialGenerator.firstSerialInputField.addEventListener("keyup", function (event)
     }
 });
 
-let inputnumberOfSerialEnterKeyListen = document.getElementById("numberOfSerial");
-inputnumberOfSerialEnterKeyListen.addEventListener("keyup", function (event) {
+
+serialGenerator.numberOfSerialsInputField.addEventListener("keyup", function (event) {
     event.preventDefault();
-
-
     if (event.keyCode === 13) {
-
-       startGenerating();
+        startGenerating();
     }
 });
 
 
 function startGenerating() {
-    console.log(isNaN(serialGenerator.getNumberOfSerialValue()));
+
     document.getElementById('generatedSerials').innerHTML = '';
     // TODO Check invalid serial number format
     if (serialGenerator.isInvalidSerialFormat()) {
         serialGenerator.addError(serialGenerator.firstSerialInputField, 'is-invalid',
-            'Hibás szériaszám formátum !!<br> A helyes formátum: <strong>9999X </strong>',0);
+            'Hibás szériaszám formátum !!<br> A helyes formátum: <strong>9999X </strong>', 0);
 
     }
     // Check to many serial number
@@ -151,6 +149,12 @@ function startGenerating() {
         document.getElementById('generatedSerials').select();
         document.getElementById("generatedSerials").focus();
         document.execCommand('copy');
+        document.getElementById('resultInfo').style.display = 'block';
+        document.getElementById('resultInfo').innerHTML =
+
+    '<strong>' +   serialGenerator.resultSerialNumber + '</strong> szériaszám generálva <br> Az utolsó szériaszám: <strong>' +
+            serialGenerator.lastSerialNumber + '</strong>';
+        ;
     }
 
 }
