@@ -4,8 +4,14 @@ class SerialNumberGeneratorClass {
     constructor() {
         this.firstSerialInputField = document.getElementById("firstSerialNumber");
         this.numberOfSerialsInputField = document.getElementById("numberOfSerial");
+        this.generatedSerialNumbersField = document.getElementById("generatedSerials");
+        this.resultInfoBox = document.getElementById('resultInfo');
         this.serialRegexPattern = new RegExp(/^\d{5}[A-Z]{1}$/);
 
+    }
+
+    clearGeneratedSerialNumbersField() {
+        this.generatedSerialNumbersField.innerHTML = '';
     }
 
     getFirstSerialNumberValue() {
@@ -74,7 +80,7 @@ class SerialNumberGeneratorClass {
 
             lineNumber = i + 1;
             generatedSerialWithFirstSection = firstSectionString + generatedSerial;
-            document.getElementById('generatedSerials').innerHTML += generatedSerialWithFirstSection + '\n';
+            this.generatedSerialNumbersField.innerHTML += generatedSerialWithFirstSection + '\n';
             firstSectionString = '';
             numberSection++;
         }
@@ -88,7 +94,8 @@ class SerialNumberGeneratorClass {
         formControl.select();
         document.getElementsByClassName("invalid-feedback")[errorCode].innerHTML = errorMsg;
         this.errorFlag = true;
-
+        this.clearGeneratedSerialNumbersField();
+        serialGenerator.resultInfoBox.style.display = 'none';
     }
 
     addSucces(formControl, successClass) {
@@ -112,7 +119,7 @@ serialGenerator.firstSerialInputField.addEventListener("keyup", function (event)
             serialGenerator.firstSerialInputField.disabled = true;
             serialGenerator.addSucces(serialGenerator.firstSerialInputField, 'is-valid');
             serialGenerator.numberOfSerialsInputField.disabled = false;
-            document.getElementById("numberOfSerial").focus();
+            serialGenerator.numberOfSerialsInputField.focus();
         }
 
     }
@@ -121,15 +128,30 @@ serialGenerator.firstSerialInputField.addEventListener("keyup", function (event)
 
 serialGenerator.numberOfSerialsInputField.addEventListener("keyup", function (event) {
     event.preventDefault();
+
+
     if (event.keyCode === 13) {
-        startGenerating();
+
+        let valueFromInputField = Number(document.getElementById("numberOfSerial").value);
+        if ((!Number.isNaN(Number(valueFromInputField)) && (valueFromInputField > 0))) {
+            if (Number.isInteger(valueFromInputField)) {
+                startGenerating();
+            } else {
+                serialGenerator.addError(serialGenerator.numberOfSerialsInputField, 'is-invalid',
+                    'Egész számot kérek !<br> légyszi ...', 1);
+            }
+        } else {
+            serialGenerator.addError(serialGenerator.numberOfSerialsInputField, 'is-invalid',
+                'Számot írj be kérlek !<br> légyszi ... ', 1);
+
+        }
     }
 });
 
 
 function startGenerating() {
 
-    document.getElementById('generatedSerials').innerHTML = '';
+    serialGenerator.clearGeneratedSerialNumbersField();
     // TODO Check invalid serial number format
     if (serialGenerator.isInvalidSerialFormat()) {
         serialGenerator.addError(serialGenerator.firstSerialInputField, 'is-invalid',
@@ -146,13 +168,13 @@ function startGenerating() {
         serialGenerator.addSucces(serialGenerator.numberOfSerialsInputField, 'is-valid');
 
         serialGenerator.generatingSerialNumbers(serialGenerator.getNumberOfSerialValue());
-        document.getElementById('generatedSerials').select();
-        document.getElementById("generatedSerials").focus();
+        serialGenerator.generatedSerialNumbersField.select();
+        serialGenerator.generatedSerialNumbersField.focus();
         document.execCommand('copy');
-        document.getElementById('resultInfo').style.display = 'block';
-        document.getElementById('resultInfo').innerHTML =
+        serialGenerator.resultInfoBox.style.display = 'block';
+        serialGenerator.resultInfoBox.innerHTML =
 
-    '<strong>' +   serialGenerator.resultSerialNumber + '</strong> szériaszám generálva <br> Az utolsó szériaszám: <strong>' +
+            '<strong>' + serialGenerator.resultSerialNumber + '</strong> szériaszám generálva <br> Az utolsó szériaszám: <strong>' +
             serialGenerator.lastSerialNumber + '</strong>';
         ;
     }

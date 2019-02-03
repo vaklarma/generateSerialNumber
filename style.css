@@ -6,33 +6,11 @@ body {
 .jumbotron {
     background-color: #c09e83;
 }
-.robot {
-    /*background-image: url("img/robot_01_01.jpg");*/
 
-    /*background-repeat: no-repeat, repeat;*/
-
-    /*background-position:  right;*/
-
+textarea {
+    font-size: 20px;
 }
 
-
-.listItem:first-child {
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-}
-
-ol {
-    list-style-type: lower-latin;
-}
-
-.listItem {
-    position: relative;
-    display: block;
-    padding: .75rem 1.25rem;
-    margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .125);
-}
 
 .invalid-feedback {
     font-size: 20px;
